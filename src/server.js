@@ -3,6 +3,26 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const mongoose = require('mongoose')
+const cors = require('cors')
+
+const corsOptions = {
+  origin: '*',
+  optionsSuccessStatus: 200,
+}
+
+app.use((req, res, next) => {
+  const origin = '*'
+  res.setHeader('Access-Control-Allow-Origin', origin)
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE')
+  res.setHeader(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
+  )
+  res.setHeader('Access-Control-Allow-Credentials', 'false')
+  next()
+})
+
+app.use(cors(corsOptions))
 
 mongoose.connect(process.env.DATABASE_URL)
 const db = mongoose.connection
