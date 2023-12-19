@@ -11,7 +11,7 @@ const getBook = async (req, res, next) => {
     if (!book) {
       return res.status(404).json({ message: 'Cannot find a book' })
     }
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({ message: error.message })
   }
 
@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
     const books = await Book.find()
 
     res.json(books)
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({ message: error.message })
   }
 })
@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
     const newBook = await book.save()
 
     res.status(201).json(newBook)
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({ message: error.message })
   }
 })
@@ -70,7 +70,7 @@ router.patch('/:id', getBook, async (req, res) => {
     const updatedBook = await res.book.save()
 
     res.json(updatedBook)
-  } catch (err) {
+  } catch (error) {
     res.status(400).json({ message: error.message })
   }
 })
@@ -78,10 +78,10 @@ router.patch('/:id', getBook, async (req, res) => {
 // Delete book
 router.delete('/:id', getBook, async (req, res) => {
   try {
-    await res.book.remove()
+    await res.book.deleteOne()
 
     res.json({ message: 'Book was deleted' })
-  } catch (err) {
+  } catch (error) {
     res.status(500).json({ message: error.message })
   }
 })
